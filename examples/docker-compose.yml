@@ -19,7 +19,7 @@ services:
 
   # Optional: MQTT client for testing
   mqtt-client:
-    image: eclipse-mosquitto:2.1.2
+    image: eclipse-mosquitto:2.1.2-alpine
     container_name: mqtt-client
     command: sleep infinity
     networks:

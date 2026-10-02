@@ -66,5 +66,5 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            MOSQUITTO_VERSION=2.1.2
+            MOSQUITTO_VERSION=2.1.2-alpine
             GO_AUTH_VERSION=2.1.0

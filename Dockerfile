@@ -1,9 +1,13 @@
 # Multi-arch Mosquitto with mosquitto-go-auth LDAP plugin
-# Based on Eclipse Mosquitto 2.1.2 + iegomez/mosquitto-go-auth
+# Based on Eclipse Mosquitto 2.1.2-alpine + iegomez/mosquitto-go-auth
 # Supports: linux/amd64, linux/arm64
+# Note: Docker Hub publishes 2.1.x only as *-alpine (no plain 2.1.2 tag)
 
-ARG MOSQUITTO_VERSION=2.1.2
+ARG MOSQUITTO_VERSION=2.1.2-alpine
 ARG GO_AUTH_VERSION=2.1.0
+# #region agent log
+# debug-session bc525e: MOSQUITTO_VERSION must resolve on Docker Hub (was 2.1.2 -> 404)
+# #endregion
 
 # Stage 1: Build mosquitto-go-auth plugin
 FROM golang:1.21-alpine AS builder

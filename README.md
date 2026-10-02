@@ -4,7 +4,7 @@ Custom Eclipse Mosquitto MQTT broker with [mosquitto-go-auth](https://github.com
 
 ## Features
 
-- **Eclipse Mosquitto 2.1.2** - Stable MQTT broker
+- **Eclipse Mosquitto 2.1.2-alpine** - Stable MQTT broker
 - **mosquitto-go-auth 2.1.0** - LDAP authentication plugin
 - **Multi-architecture support** - `linux/amd64` and `linux/arm64`
 - **Automated builds** - GitHub Actions workflow for CI/CD
@@ -100,9 +100,9 @@ docker buildx build --platform linux/amd64,linux/arm64 -t mosquitto-custom:local
 
 | Component | Version |
 |-----------|---------|
-| Eclipse Mosquitto | 2.1.2 |
+| Eclipse Mosquitto | 2.1.2-alpine |
 | mosquitto-go-auth | 2.1.0 |
-| Base Image | `eclipse-mosquitto:2.1.2` |
+| Base Image | `eclipse-mosquitto:2.1.2-alpine` |
 | Go | 1.21 |
 
 ## Security Considerations

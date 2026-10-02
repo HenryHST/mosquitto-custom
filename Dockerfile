@@ -27,6 +27,7 @@ RUN apt-get update \
         libssl-dev \
         libcjson-dev \
         libc-ares-dev \
+        libsqlite3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
@@ -95,6 +96,7 @@ RUN apt-get update \
         libc-ares2 \
         libssl3 \
         libcjson1 \
+        libsqlite3-0 \
         openssl \
         tini \
     && rm -rf /var/lib/apt/lists/* \

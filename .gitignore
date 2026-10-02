@@ -1,0 +1,39 @@
+# Mosquitto Custom Image
+
+# Build artifacts
+*.tar.gz
+*.so
+
+# Docker
+.dockerignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Certificates and secrets (never commit!)
+*.key
+*.crt
+*.pem
+*.p12
+*.pfx
+certs/
+secrets/
+
+# Local test data
+data/
+mosquitto-data/
+
+# Environment files
+.env
+.env.local

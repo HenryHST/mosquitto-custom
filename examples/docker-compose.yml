@@ -1,0 +1,33 @@
+# Mosquitto Custom - Docker Compose Example
+# Basic setup for local testing
+
+services:
+  mosquitto:
+    image: ghcr.io/henryhst/mosquitto-custom:latest
+    container_name: mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "8883:8883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./certs:/mosquitto/certs:ro
+      - mosquitto-data:/mosquitto/data
+    networks:
+      - mqtt
+
+  # Optional: MQTT client for testing
+  mqtt-client:
+    image: eclipse-mosquitto:2.1.2
+    container_name: mqtt-client
+    command: sleep infinity
+    networks:
+      - mqtt
+
+volumes:
+  mosquitto-data:
+
+networks:
+  mqtt:
+    driver: bridge

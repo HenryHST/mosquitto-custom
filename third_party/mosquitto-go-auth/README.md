@@ -171,7 +171,7 @@ This will fetch the go dependecies and then build the `go-auth.so` shared object
 make
 ```
 
-This assumes that `mosquitto.h`, `mosquitto_plugin.h` and `mosquitto_broker.h` are located at `/usr/include` or `/usr/local/include`
+For Mosquitto 2.1+, include only `mosquitto.h` (legacy `mosquitto_plugin.h` / `mosquitto_broker.h` shims emit compile warnings). Headers are expected at `/usr/include` or `/usr/local/include`.
 on MacOS or debian-based systems (and probably other linux systems too).
 
 On debian-based systems you can install the header files via apt (```apt install mosquitto-dev libmosquitto-dev```). They will be placed under `/usr/include`.

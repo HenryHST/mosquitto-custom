@@ -29,9 +29,10 @@ This project includes:
 
 2. mosquitto-go-auth - Licensed under MIT
    https://github.com/iegomez/mosquitto-go-auth/blob/master/LICENSE
+   Vendored at third_party/mosquitto-go-auth/ (see third_party/NOTICE)
 
 3. Home Assistant Mosquitto app (mosquitto_ldap/) - derived from
    home-assistant/addons (Apache-2.0)
    https://github.com/home-assistant/addons/tree/master/mosquitto
 
-See individual component repositories for their respective license terms.
+See individual component repositories and third_party/NOTICE for license terms.

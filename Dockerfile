@@ -1,5 +1,5 @@
 # Multi-arch Mosquitto with mosquitto-go-auth LDAP plugin (minilab / K8s)
-# Based on Eclipse Mosquitto 2.1.2-alpine + iegomez/mosquitto-go-auth 3.0.0
+# Based on Eclipse Mosquitto 2.1.2-alpine + vendored mosquitto-go-auth (3.0.0 + patches)
 # Supports: linux/amd64, linux/arm64
 # Note: Docker Hub publishes 2.1.x only as *-alpine (no plain 2.1.2 tag)
 #
@@ -9,45 +9,33 @@
 # - No Home Assistant Supervisor dependencies
 
 ARG MOSQUITTO_VERSION=2.1.2-alpine
-ARG GO_AUTH_VERSION=3.0.0
 
-# Stage 1: Build mosquitto-go-auth plugin
-FROM golang:1.22-alpine AS builder
+# Stage 1: Build mosquitto-go-auth from third_party (musl, matches alpine final image)
+FROM golang:1.24-alpine AS builder
 
-ARG GO_AUTH_VERSION
 ARG TARGETARCH
 
-RUN apk add --no-cache git make gcc g++ musl-dev openssl-dev
+RUN apk add --no-cache build-base git openssl-dev mosquitto-dev
 
 WORKDIR /build
+COPY third_party/mosquitto-go-auth/ ./
 
-# Clone mosquitto-go-auth at specified version
-RUN git clone --depth 1 --branch ${GO_AUTH_VERSION} https://github.com/iegomez/mosquitto-go-auth.git .
+RUN make && test -f go-auth.so
 
-# Fix nil pointer dereference panic in ttlcache (same as HA addon)
-RUN sed -i 's/return present, item.Value()/if item == nil { return false, false }\n\treturn true, item.Value()/' cache/cache.go
-
-# Build the plugin
-RUN make
-
-# Stage 2: Build final image with Mosquitto + plugin
+# Stage 2: Final image with Mosquitto + plugin
 FROM eclipse-mosquitto:${MOSQUITTO_VERSION}
 
 ARG MOSQUITTO_VERSION
-ARG GO_AUTH_VERSION
 
 LABEL org.opencontainers.image.title="Mosquitto with go-auth LDAP" \
-      org.opencontainers.image.description="Eclipse Mosquitto ${MOSQUITTO_VERSION} with mosquitto-go-auth ${GO_AUTH_VERSION} LDAP authentication plugin" \
+      org.opencontainers.image.description="Eclipse Mosquitto ${MOSQUITTO_VERSION} with vendored mosquitto-go-auth LDAP authentication plugin" \
       org.opencontainers.image.source="https://github.com/HenryHST/mosquitto-custom" \
       org.opencontainers.image.licenses="EPL-2.0 AND MIT"
 
-# Copy the built plugin from builder stage
 COPY --from=builder /build/go-auth.so /mosquitto/go-auth.so
 
-# Ensure plugin is readable
 RUN chmod 755 /mosquitto/go-auth.so
 
-# Mosquitto runs as user mosquitto (1883:1883)
 USER mosquitto
 
 EXPOSE 1883 8883 9001

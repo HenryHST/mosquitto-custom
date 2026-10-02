@@ -40,3 +40,8 @@ mosquitto-data/
 
 # Temporary clones
 .tmp-ha-addons/
+
+# Vendored go-auth build artifacts (source is tracked)
+third_party/mosquitto-go-auth/go-auth.so
+third_party/mosquitto-go-auth/go-auth.h
+third_party/mosquitto-go-auth/pw

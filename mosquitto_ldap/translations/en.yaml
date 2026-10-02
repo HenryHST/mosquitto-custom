@@ -48,12 +48,19 @@ configuration:
     name: Debug
     description: >-
       If enabled will turn on debug logging for mosquitto and the auth plugin.
+      Do not leave enabled in production (plugin may log sensitive data).
   ldap:
     name: LDAP
     description: >-
-      Optional LDAP backend (mosquitto-go-auth). When enabled, MQTT clients can
-      authenticate with LDAP in addition to Home Assistant users and local
-      logins. Backends are checked in order: files, http (HA users), ldap.
+      Optional LDAP backend. When enabled, MQTT clients can authenticate with
+      LDAP in addition to Home Assistant users and local logins. Backends are
+      checked in order: files, http (HA users), ldap, then go_auth.extra_backends.
+  go_auth:
+    name: go-auth plugin
+    description: >-
+      Global mosquitto-go-auth options (cache, hasher, retry, prefixes) and
+      advanced hooks (extra_backends / extra_options) for jwt, redis, postgres,
+      and other compiled-in backends. See the Documentation tab.
 network:
   1883/tcp: Normal MQTT
   1884/tcp: MQTT over WebSocket

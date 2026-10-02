@@ -1,0 +1,19 @@
+third_party/NOTICE
+
+Vendored components
+===================
+
+mosquitto-go-auth
+-----------------
+Source: https://github.com/iegomez/mosquitto-go-auth
+Tag: 3.0.0 (commit 2d2480add26eb4f1e7923a169e813228eb5c87eb)
+License: MIT (see third_party/mosquitto-go-auth/LICENSE)
+Location: third_party/mosquitto-go-auth/
+Notes: Maintenance fork with Alpine build fixes and LDAP logging/ACL clarifications.
+       See third_party/mosquitto-go-auth/README.vendored.md
+
+Home Assistant Mosquitto app (structure)
+----------------------------------------
+Source: https://github.com/home-assistant/addons/tree/master/mosquitto
+License: Apache-2.0
+Location: mosquitto_ldap/ (derived)

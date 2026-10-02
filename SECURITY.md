@@ -23,21 +23,23 @@ This Docker image packages:
 
 ### Known Limitations
 
-1. **mosquitto-go-auth is archived** - The upstream project is no longer maintained. Consider these alternatives for production:
-   - Mosquitto Dynamic Security plugin (built-in)
-   - mosquitto-auth-plugin (if maintained)
-   - Commercial MQTT brokers with active support
+1. **mosquitto-go-auth upstream is archived** — this repo vendors a maintenance
+   fork under `third_party/mosquitto-go-auth/`. Prefer `ldaps://`, short-lived
+   credentials, and review [README.vendored.md](third_party/mosquitto-go-auth/README.vendored.md).
 
-2. **LDAP Authentication** - This image is configured for LDAP auth. Security recommendations:
-   - Always use `ldaps://` (LDAP over TLS) in production
-   - Never store bind passwords in configuration files
-   - Use Kubernetes Secrets or secure environment variable injection
+2. **LDAP Authentication** - Security recommendations:
+   - Always use `ldaps://` (LDAP over TLS) when LDAP is not on a trusted network
+   - Never store bind passwords in Git; use HA app options, Kubernetes Secrets, or secret managers
    - Implement network segmentation
    - Use strong TLS certificates from trusted CAs
 
-3. **Multi-tenancy** - Configure proper ACLs to isolate topics between users/groups
+3. **Advanced go_auth options** — `extra_options` can inject arbitrary `auth_opt_*`
+   lines. Do not put secrets into the repository; never enable plugin debug logging
+   in production.
 
-4. **Monitoring** - Enable and monitor `$SYS/#` topics for anomalies
+4. **Multi-tenancy** - Configure proper ACLs to isolate topics between users/groups
+
+5. **Monitoring** - Enable and monitor `$SYS/#` topics for anomalies
 
 ## Security Best Practices
 

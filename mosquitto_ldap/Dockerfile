@@ -1,5 +1,6 @@
 # Home Assistant app image: Mosquitto + go-auth (HA users + optional LDAP).
 # Derived from home-assistant/addons/mosquitto Dockerfile.
+# Build context must be the repository root (see .github/workflows/build.yml).
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
@@ -7,7 +8,7 @@ FROM $BUILD_FROM
 WORKDIR /usr/src
 ARG LIBWEBSOCKET_VERSION
 ARG MOSQUITTO_VERSION
-ARG MOSQUITTO_AUTH_VERSION
+COPY third_party/mosquitto-go-auth /usr/src/mosquitto-go-auth
 RUN apt-get update \
     && apt-get install -qy --no-install-recommends \
         nginx \
@@ -52,19 +53,13 @@ RUN apt-get update \
     && make WITH_WEBSOCKETS=yes WITH_SRV=yes \
     && make install \
     && cd .. \
-    # Compile and install mosquitto-go-auth
-    && git clone --depth 1 -b "${MOSQUITTO_AUTH_VERSION}" \
-       https://github.com/iegomez/mosquitto-go-auth \
-    \
+    # Build vendored mosquitto-go-auth (Makefile already patched for /usr/include)
     && cd mosquitto-go-auth \
-    && sed -i 's/-I\/usr\/local\/include/-I\/usr\/include/' Makefile \
-    && sed -i 's/LDFLAGS := .*$/& -Wl,-unresolved-symbols=ignore-all/' Makefile \
-    # Fix nil pointer dereference panic in ttlcache
-    && sed -i 's/return present, item.Value()/if item == nil { return false, false }\n\treturn true, item.Value()/' cache/cache.go \
     && make \
     && mkdir -p /usr/share/mosquitto \
     && cp -f go-auth.so /usr/share/mosquitto \
     && cp -f pw /usr/local/bin \
+    && cd .. \
     \
     && apt-get purge -y --auto-remove \
         build-essential \
@@ -89,10 +84,10 @@ RUN apt-get update \
         /var/lib/nginx/html \
         /var/www \
         /var/lib/apt/lists/* \
-	/root/.cache \
-	/root/go
+        /root/.cache \
+        /root/go
 
 # Copy rootfs
-COPY rootfs /
+COPY mosquitto_ldap/rootfs /
 
 WORKDIR /

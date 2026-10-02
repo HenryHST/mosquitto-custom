@@ -68,7 +68,6 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             MOSQUITTO_VERSION=2.1.2-alpine
-            GO_AUTH_VERSION=3.0.0
 
   addon:
     name: Home Assistant app images
@@ -116,7 +115,7 @@ jobs:
       - name: Build and push app image
         uses: docker/build-push-action@v5
         with:
-          context: ./mosquitto_ldap
+          context: .
           file: ./mosquitto_ldap/Dockerfile
           platforms: ${{ matrix.platform }}
           push: ${{ github.event_name != 'pull_request' }}
@@ -129,4 +128,3 @@ jobs:
             BUILD_FROM=${{ matrix.build_from }}
             LIBWEBSOCKET_VERSION=4.5.8
             MOSQUITTO_VERSION=2.1.2
-            MOSQUITTO_AUTH_VERSION=3.0.0

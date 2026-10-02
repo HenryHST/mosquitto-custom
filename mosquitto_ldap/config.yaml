@@ -1,5 +1,5 @@
 ---
-version: "1.0.0"
+version: "1.1.0"
 slug: mosquitto_ldap
 name: Mosquitto broker (LDAP)
 description: MQTT broker with Home Assistant users and optional LDAP via mosquitto-go-auth
@@ -33,6 +33,36 @@ options:
     bind_password: ""
     user_filter: "(&(cn=%s)(memberOf=cn=mqtt_users,ou=groups,dc=example,dc=com))"
     superuser_filter: "(&(cn=%s)(memberOf=cn=mqtt_admins,ou=groups,dc=example,dc=com))"
+    group_filter: "(member=%s)"
+    acl_topic_pattern_attribute: ""
+    acl_acc_attribute: ""
+  go_auth:
+    exhaust_backend_first: false
+    use_clientid_as_username: false
+    disable_superuser: false
+    retry_count: 0
+    cache: true
+    cache_type: "go-cache"
+    cache_reset: false
+    cache_refresh: false
+    auth_cache_seconds: 300
+    acl_cache_seconds: 300
+    auth_jitter_seconds: 30
+    acl_jitter_seconds: 30
+    cache_host: "localhost"
+    cache_port: "6379"
+    cache_password: ""
+    cache_db: "3"
+    hasher: "pbkdf2"
+    hasher_iterations: 100000
+    hasher_salt_size: 16
+    log_dest: "stdout"
+    log_file: ""
+    check_prefix: false
+    strip_prefix: false
+    prefixes: ""
+    extra_backends: ""
+    extra_options: ""
 ports:
   1883/tcp: 1883
   1884/tcp: 1884
@@ -64,6 +94,36 @@ schema:
     bind_password: password
     user_filter: str
     superuser_filter: str
+    group_filter: str
+    acl_topic_pattern_attribute: str
+    acl_acc_attribute: str
+  go_auth:
+    exhaust_backend_first: bool
+    use_clientid_as_username: bool
+    disable_superuser: bool
+    retry_count: int
+    cache: bool
+    cache_type: list(go-cache|redis)
+    cache_reset: bool
+    cache_refresh: bool
+    auth_cache_seconds: int
+    acl_cache_seconds: int
+    auth_jitter_seconds: int
+    acl_jitter_seconds: int
+    cache_host: str
+    cache_port: str
+    cache_password: password
+    cache_db: str
+    hasher: list(pbkdf2|bcrypt|argon2id)
+    hasher_iterations: int
+    hasher_salt_size: int
+    log_dest: list(stdout|stderr|file)
+    log_file: str
+    check_prefix: bool
+    strip_prefix: bool
+    prefixes: str
+    extra_backends: str
+    extra_options: str
 services:
   - mqtt:provide
 startup: system

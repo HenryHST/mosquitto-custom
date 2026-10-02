@@ -70,7 +70,7 @@ RUN wget -q "https://mosquitto.org/files/source/mosquitto-${MOSQUITTO_VERSION}.t
 FROM golang:1.25-bookworm AS go_auth_builder
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc libc6-dev \
+    && apt-get install -y --no-install-recommends gcc libc6-dev libcjson-dev \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=mosquitto_builder /usr/local/include/ /usr/local/include/

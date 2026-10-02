@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Standalone base: compile Eclipse Mosquitto **2.1.2** + libwebsockets from source (same approach as the HA app / upstream iegomez image)
+- Standalone CI publishes **linux/amd64** first (arm64 multi-arch follow-up; pin workloads to amd64 until then)
 
 ## [1.1.0] - 2026-10-02
 

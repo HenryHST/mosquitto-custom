@@ -7,7 +7,7 @@ maintenance / LDAP patches).
 
 ## Features
 
-- **Eclipse Mosquitto 2.1.2-alpine** — standalone / Kubernetes image
+- **Eclipse Mosquitto 2.1.2** — standalone / Kubernetes image (Debian/glibc; Alpine cannot load Go c-shared plugins)
 - **Vendored go-auth** — all upstream backends compiled in; LDAP first-class
 - **Multi-architecture** — `linux/amd64` and `linux/arm64`
 - **Home Assistant app** — HA users + optional LDAP + advanced go-auth options

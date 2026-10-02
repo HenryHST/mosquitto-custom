@@ -37,3 +37,6 @@ mosquitto-data/
 # Environment files
 .env
 .env.local
+
+# Temporary clones
+.tmp-ha-addons/

@@ -1,13 +1,18 @@
-# Multi-arch Mosquitto with mosquitto-go-auth LDAP plugin
-# Based on Eclipse Mosquitto 2.1.2-alpine + iegomez/mosquitto-go-auth
+# Multi-arch Mosquitto with mosquitto-go-auth LDAP plugin (minilab / K8s)
+# Based on Eclipse Mosquitto 2.1.2-alpine + iegomez/mosquitto-go-auth 3.0.0
 # Supports: linux/amd64, linux/arm64
 # Note: Docker Hub publishes 2.1.x only as *-alpine (no plain 2.1.2 tag)
+#
+# Contract for minilab (ADR-0029 / issue #100):
+# - Plugin path: /mosquitto/go-auth.so
+# - User: mosquitto (1883:1883)
+# - No Home Assistant Supervisor dependencies
 
 ARG MOSQUITTO_VERSION=2.1.2-alpine
-ARG GO_AUTH_VERSION=2.1.0
+ARG GO_AUTH_VERSION=3.0.0
 
 # Stage 1: Build mosquitto-go-auth plugin
-FROM golang:1.27-alpine AS builder
+FROM golang:1.22-alpine AS builder
 
 ARG GO_AUTH_VERSION
 ARG TARGETARCH
@@ -18,6 +23,9 @@ WORKDIR /build
 
 # Clone mosquitto-go-auth at specified version
 RUN git clone --depth 1 --branch ${GO_AUTH_VERSION} https://github.com/iegomez/mosquitto-go-auth.git .
+
+# Fix nil pointer dereference panic in ttlcache (same as HA addon)
+RUN sed -i 's/return present, item.Value()/if item == nil { return false, false }\n\treturn true, item.Value()/' cache/cache.go
 
 # Build the plugin
 RUN make

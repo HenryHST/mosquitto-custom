@@ -10,18 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release of mosquitto-custom Docker image
 - Eclipse Mosquitto 2.1.2-alpine base
-- mosquitto-go-auth 2.1.0 LDAP authentication plugin
+- mosquitto-go-auth 3.0.0 LDAP authentication plugin
 - Multi-architecture support (linux/amd64, linux/arm64)
-- GitHub Actions workflow for automated builds
+- Home Assistant app `mosquitto_ldap` (HA users + optional LDAP)
+- GitHub Actions workflow for standalone + app image builds
 - Example configuration files
 - Docker Compose example
 - Comprehensive documentation
 - Security policy and considerations
 
 ### Components
-- Eclipse Mosquitto: 2.1.2-alpine
-- mosquitto-go-auth: 2.1.0
-- Go: 1.21
+- Eclipse Mosquitto: 2.1.2-alpine (standalone) / 2.1.2 (HA app)
+- mosquitto-go-auth: 3.0.0
+- Go: 1.22 (standalone build)
 - Base: eclipse-mosquitto:2.1.2-alpine
 
 ### Security

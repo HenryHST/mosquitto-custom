@@ -105,7 +105,7 @@ docker build \
 | Eclipse Mosquitto | 2.1.2-alpine | 2.1.2 (from source) |
 | mosquitto-go-auth | vendored 3.0.0+patches | same |
 | Base | `eclipse-mosquitto:2.1.2-alpine` | HA Debian trixie |
-| Go (build) | 1.24 | Debian golang |
+| Go (build) | 1.25 | Debian golang |
 
 ## Security
 

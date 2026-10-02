@@ -11,7 +11,7 @@
 ARG MOSQUITTO_VERSION=2.1.2-alpine
 
 # Stage 1: Build mosquitto-go-auth from third_party (musl, matches alpine final image)
-FROM golang:1.24-alpine AS builder
+FROM golang:1.25-alpine AS builder
 
 ARG TARGETARCH
 

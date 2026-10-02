@@ -7,7 +7,7 @@ ARG MOSQUITTO_VERSION=2.1.2-alpine
 ARG GO_AUTH_VERSION=2.1.0
 
 # Stage 1: Build mosquitto-go-auth plugin
-FROM golang:1.21-alpine AS builder
+FROM golang:1.27-alpine AS builder
 
 ARG GO_AUTH_VERSION
 ARG TARGETARCH

@@ -67,7 +67,8 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            MOSQUITTO_VERSION=2.1.2-alpine
+            MOSQUITTO_VERSION=2.1.2
+            LWS_VERSION=4.5.8
 
   addon:
     name: Home Assistant app images

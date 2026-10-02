@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-10-02
+
+### Fixed
+- Standalone image builds on **Debian/glibc** instead of Alpine/musl so `go-auth.so` loads (fixes `runtime.tls_g` / `initial-exec TLS` relocation error on amd64 and arm64)
+
+### Changed
+- Standalone base: compile Eclipse Mosquitto **2.1.2** + libwebsockets from source (same approach as the HA app / upstream iegomez image)
+
 ## [1.1.0] - 2026-10-02
 
 ### Added

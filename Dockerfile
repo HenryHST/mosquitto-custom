@@ -90,6 +90,8 @@ LABEL org.opencontainers.image.title="Mosquitto with go-auth LDAP" \
       org.opencontainers.image.source="https://github.com/HenryHST/mosquitto-custom" \
       org.opencontainers.image.licenses="EPL-2.0 AND MIT"
 
+# Fresh apt indexes + upgrade Essential packages (e.g. perl-base) so Trivy
+# picks up Debian security fixes without waiting for a new bookworm-slim digest.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         ca-certificates \
@@ -99,6 +101,7 @@ RUN apt-get update \
         libsqlite3-0 \
         openssl \
         tini \
+    && apt-get upgrade -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* \
     && groupadd -g 1883 mosquitto \
     && useradd -u 1883 -g 1883 -s /usr/sbin/nologin -d /mosquitto -M mosquitto \

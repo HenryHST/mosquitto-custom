@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/go-ldap/ldap/v3 v3.4.11
-	github.com/go-redis/redis/v8 v8.11.5
+	github.com/go-redis/redis/v9 v9.23.0
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang/protobuf v1.5.4

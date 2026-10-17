@@ -18,7 +18,7 @@ require (
 	github.com/sirupsen/logrus v1.10.2
 	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a
 	github.com/stretchr/testify v1.12.1
-	go.mongodb.org/mongo-driver v1.17.10
+	go.mongodb.org/mongo-driver/v2 v2.9.2
 	golang.org/x/crypto v0.46.0
 	google.golang.org/grpc v1.79.3
 )

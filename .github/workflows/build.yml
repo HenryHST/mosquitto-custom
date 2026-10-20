@@ -57,6 +57,7 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push Docker image
+        id: build
         uses: docker/build-push-action@v7
         with:
           context: .
@@ -69,6 +70,30 @@ jobs:
           build-args: |
             MOSQUITTO_VERSION=2.1.2
             LWS_VERSION=4.5.8
+
+      - name: Install Cosign
+        if: github.event_name != 'pull_request'
+        uses: sigstore/cosign-installer@v4
+
+      - name: Sign image with Cosign (keyless OIDC)
+        if: github.event_name != 'pull_request'
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          set -euo pipefail
+          image="$(echo "${REGISTRY}/${IMAGE_NAME}" | tr '[:upper:]' '[:lower:]')"
+          cosign sign --yes "${image}@${DIGEST}"
+
+      - name: Verify Cosign signature
+        if: github.event_name != 'pull_request'
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          set -euo pipefail
+          image="$(echo "${REGISTRY}/${IMAGE_NAME}" | tr '[:upper:]' '[:lower:]')"
+          cosign verify "${image}@${DIGEST}" \
+            --certificate-identity-regexp "^https://github.com/${{ github.repository }}/\.github/workflows/build\.yml@refs/" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
 
   addon:
     name: Home Assistant app images
@@ -114,6 +139,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push app image
+        id: build
         uses: docker/build-push-action@v7
         with:
           context: .
@@ -129,3 +155,27 @@ jobs:
             BUILD_FROM=${{ matrix.build_from }}
             LIBWEBSOCKET_VERSION=4.5.8
             MOSQUITTO_VERSION=2.1.2
+
+      - name: Install Cosign
+        if: github.event_name != 'pull_request'
+        uses: sigstore/cosign-installer@v4
+
+      - name: Sign image with Cosign (keyless OIDC)
+        if: github.event_name != 'pull_request'
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+          IMAGE: ${{ env.REGISTRY }}/henryhst/${{ matrix.arch }}-addon-mosquitto-ldap
+        run: |
+          set -euo pipefail
+          cosign sign --yes "${IMAGE}@${DIGEST}"
+
+      - name: Verify Cosign signature
+        if: github.event_name != 'pull_request'
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+          IMAGE: ${{ env.REGISTRY }}/henryhst/${{ matrix.arch }}-addon-mosquitto-ldap
+        run: |
+          set -euo pipefail
+          cosign verify "${IMAGE}@${DIGEST}" \
+            --certificate-identity-regexp "^https://github.com/${{ github.repository }}/\.github/workflows/build\.yml@refs/" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com"

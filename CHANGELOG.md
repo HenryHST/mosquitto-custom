@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- Vendored go-auth: Redis `github.com/redis/go-redis/v9` v9.23.0 (was `go-redis/redis/v8`)
+- Vendored go-auth: MongoDB driver `go.mongodb.org/mongo-driver/v2` v2.9.2 with Connect/options builder migration
+- Standalone build image: `golang:1.26-bookworm` (redis v9 requires Go 1.26)
+
 ## [1.1.2] - 2026-10-13
 
 ### Fixed

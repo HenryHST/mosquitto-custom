@@ -67,7 +67,8 @@ RUN wget -q "https://mosquitto.org/files/source/mosquitto-${MOSQUITTO_VERSION}.t
     && ldconfig
 
 # Stage 2: go-auth plugin (glibc, matches runtime)
-FROM golang:1.25-bookworm AS go_auth_builder
+# go-redis/v9@v9.23.0 requires Go 1.26 (mongo-driver/v2@v2.9.2 needs >=1.25)
+FROM golang:1.26-bookworm AS go_auth_builder
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gcc libc6-dev libcjson-dev \

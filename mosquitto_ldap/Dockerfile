@@ -53,9 +53,10 @@ RUN apt-get update \
     && make WITH_WEBSOCKETS=yes WITH_SRV=yes \
     && make install \
     && cd .. \
-    # Build vendored mosquitto-go-auth (Makefile already patched for /usr/include)
+    # Build vendored mosquitto-go-auth (Makefile already patched for /usr/include).
+    # go.mod requires Go 1.26 (redis/go-redis v9); let the distro go toolchain download it.
     && cd mosquitto-go-auth \
-    && make \
+    && GOTOOLCHAIN=auto make \
     && mkdir -p /usr/share/mosquitto \
     && cp -f go-auth.so /usr/share/mosquitto \
     && cp -f pw /usr/local/bin \

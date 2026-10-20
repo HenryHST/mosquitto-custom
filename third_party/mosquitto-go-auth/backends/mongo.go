@@ -12,9 +12,9 @@ import (
 	"github.com/iegomez/mosquitto-go-auth/hashing"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 type Mongo struct {
@@ -110,33 +110,31 @@ func NewMongo(authOpts map[string]string, logLevel log.Level, hasher hashing.Has
 
 	addr := fmt.Sprintf("mongodb://%s:%s", m.Host, m.Port)
 
-	to := 60 * time.Second
-
-	opts := options.ClientOptions{
-		ConnectTimeout: &to,
-	}
+	opts := options.Client().
+		ApplyURI(addr).
+		SetConnectTimeout(60 * time.Second)
 
 	if m.withTLS {
-		opts.TLSConfig = &tls.Config{}
+		opts = opts.SetTLSConfig(&tls.Config{
+			InsecureSkipVerify: m.insecureSkipVerify,
+		})
 	}
 
-	opts.ApplyURI(addr)
-
 	if m.Username != "" && m.Password != "" {
-		opts.Auth = &options.Credential{
-			AuthSource:  m.DBName,
+		authSource := m.DBName
+		if m.AuthSource != "" {
+			authSource = m.AuthSource
+			log.Infof("mongo backend: set authentication db to: %s", m.AuthSource)
+		}
+		opts = opts.SetAuth(options.Credential{
+			AuthSource:  authSource,
 			Username:    m.Username,
 			Password:    m.Password,
 			PasswordSet: true,
-		}
-		// Set custom AuthSource db if supplied in config
-		if m.AuthSource != "" {
-			opts.Auth.AuthSource = m.AuthSource
-			log.Infof("mongo backend: set authentication db to: %s", m.AuthSource)
-		}
+		})
 	}
 
-	client, err := mongo.Connect(context.TODO(), &opts)
+	client, err := mongo.Connect(opts)
 	if err != nil {
 		return m, errors.Errorf("couldn't start mongo backend: %s", err)
 	}

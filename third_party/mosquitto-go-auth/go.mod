@@ -11,7 +11,7 @@ require (
 	github.com/jellydator/ttlcache/v3 v3.4.1
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/lib/pq v1.12.3
-	github.com/mattn/go-sqlite3 v1.14.24
+	github.com/mattn/go-sqlite3 v1.14.52
 	github.com/pkg/errors v0.9.1
 	github.com/redis/go-redis/v9 v9.23.0
 	github.com/robertkrimen/otto v0.5.1

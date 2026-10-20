@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/go-ldap/ldap/v3 v3.4.11
-	github.com/go-redis/redis/v9 v9.23.0
+	github.com/go-redis/redis/v8 v8.11.5
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang/protobuf v1.5.4
@@ -18,7 +18,7 @@ require (
 	github.com/sirupsen/logrus v1.10.2
 	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a
 	github.com/stretchr/testify v1.12.1
-	go.mongodb.org/mongo-driver/v2 v2.9.2
+	go.mongodb.org/mongo-driver v1.17.10
 	golang.org/x/crypto v0.46.0
 	google.golang.org/grpc v1.79.3
 )

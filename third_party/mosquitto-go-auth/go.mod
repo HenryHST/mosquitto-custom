@@ -14,7 +14,7 @@ require (
 	github.com/lib/pq v1.12.3
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/pkg/errors v0.9.1
-	github.com/redis/go-redis/v9 v9.24.0
+	github.com/redis/go-redis/v9 v9.24.1
 	github.com/robertkrimen/otto v0.5.1
 	github.com/sirupsen/logrus v1.10.2
 	github.com/smartystreets/goconvey v1.8.1
